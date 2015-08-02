@@ -1,0 +1,10 @@
+{
+  "preset": "google",
+  "disallowSpacesInAnonymousFunctionExpression": {
+      "beforeOpeningRoundBrace": false,
+      "beforeOpeningCurlyBrace": false
+  },
+  "disallowTrailingWhitespace": "ignoreEmptyLines",
+  "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
+  "excludeFiles": ["node_modules/**"]
+}

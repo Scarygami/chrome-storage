@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "devDependencies": {
+    "del": "^1.1.1",
+    "gulp": "^3.8.5",
+    "gulp-crisper": "^0.0.5",
+    "gulp-flatten": "0.0.4",
+    "gulp-if": "^1.2.1",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-size": "^1.0.0",
+    "merge-stream": "^0.1.7",
+    "run-sequence": "^1.0.2"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}
