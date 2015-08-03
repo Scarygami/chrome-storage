@@ -125,7 +125,7 @@ is resolved. Local storage will be blown away.
       },
 
       observers: [
-        '_debounceReload(type, name)',
+        '_debounceReload(area, name)',
         '_trySaveValue(autoSaveDisabled)',
         '_trySaveValue(value.*)'
       ],
@@ -179,7 +179,7 @@ is resolved. Local storage will be blown away.
        * loads value from storage
        */
       _load: function () {
-        if (!this.area || this.name) {
+        if (!this.area || !this.name) {
           return;
         }
         if (this.area !== 'sync' && this.area !== 'local') {
@@ -214,7 +214,7 @@ is resolved. Local storage will be blown away.
             this._doNotSave = false;
             this.fire('load');
           }
-        });
+        }.bind(this));
       },
 
       _handleSave: function () {
@@ -228,7 +228,7 @@ is resolved. Local storage will be blown away.
        * If `value` is null, deletes the value in storage.
        */
       save: function () {
-        if (!this.area || this.name) {
+        if (!this.area ||! this.name) {
           return;
         }
         if (this.area !== 'sync' && this.area !== 'local') {

@@ -13,33 +13,55 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
-    <script src="../../stacky/lib/parsing.js"></script>
-    <script src="../../stacky/lib/formatting.js"></script>
-    <script src="../../stacky/lib/normalization.js"></script>
-    <script src="../../async/lib/async.js"></script>
-    <script src="../../lodash/lodash.js"></script>
-    <script src="../../mocha/mocha.js"></script>
-    <script src="../../chai/chai.js"></script>
-    <script src="../../sinonjs/sinon.js"></script>
-    <script src="../../sinon-chai/lib/sinon-chai.js"></script>
-    <script src="../../accessibility-developer-tools/dist/js/axs_testing.js"></script>
-
-    <script src="prepare_wct.js"></script>
-
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../test-fixture/test-fixture-mocha.js"></script>
 
+    <link rel="import" href="../../test-fixture/test-fixture.html">
     <link rel="import" href="../chrome-storage.html">
   </head>
   <body>
 
-    <!-- You can use the document as a place to set up your fixtures. -->
-    <chrome-storage></chrome-storage>
+    <test-fixture id="fixture">
+      <template>
+        <chrome-storage id="storage" area="local" name="chrome-storage-test"></iron-localstorage>
+      </template>
+    </test-fixture>
 
     <script>
-      var myEl = document.querySelector('chrome-storage');
+      var storage;
 
       suite('<chrome-storage>', function() {
+
+        setup(function (done) {
+          chrome.storage.local.set({'chrome-storage-test': {foo: 'bar'}}, function () {
+            if (chrome.runtime.lastError) {
+              done(chrome.runtime.lastError);
+              return;
+            }
+            storage = document.getElementById('fixture').create();
+            storage.flushDebouncer('reload');
+            done();
+          });
+        });
+
+        teardown(function (done) {
+          chrome.storage.local.remove('chrome-storage-test', function () {
+            if (chrome.runtime.lastError) {
+              done(chrome.runtime.lastError);
+              return;
+            }
+            done();
+          });
+        });
+
+        test('load', function (done) {
+          window.setTimeout(function () {
+            assert.isNotNull(storage.value);
+            assert.equal(storage.value.foo, 'bar');
+            done();
+          }, 200);
+        });
 
       });
     </script>
