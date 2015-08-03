@@ -31,6 +31,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <body>
 
   <div class="vertical-section vertical-section-container centered">
+
     <template is="dom-bind">
       <chrome-storage
         area="local"
@@ -43,6 +44,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <p>Name: <input value="{{value.name::change}}" placeholder="Enter words"></p>
       <paper-checkbox checked="{{value.hasEars::change}}">Has ears</paper-checkbox>
     </template>
+
   </div>
 
   <script>
