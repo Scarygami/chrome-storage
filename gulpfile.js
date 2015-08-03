@@ -14,6 +14,7 @@ var elemDir = __dirname.split(path.sep).pop();
 // Copy and prepare custom element
 var copyTask = function (type, destDir, live) {
 
+  // Scripts necessary for WCT that need to be loaded explicitely for Chrome Apps
   var wctScripts = [
     '<script src="../../stacky/lib/parsing.js"></script>',
     '<script src="../../stacky/lib/formatting.js"></script>',
@@ -57,6 +58,7 @@ var copyTask = function (type, destDir, live) {
   }
 
   if (type === 'test') {
+    // Insert WCT Scripts in test files
     copy = copy.pipe(
       $.if(
         '**/test/*.html',
@@ -136,6 +138,8 @@ gulp.task('watch:demo', watchTask.bind(null, 'demo', 'demo-app'));
 gulp.task('clean:test', del.bind(null, ['test-app']));
 gulp.task('clean:demo', del.bind(null, ['demo-app']));
 
+
+// Main Gulp tasks
 gulp.task('build:test', ['clean:test'], function (cb) {
   runSequence(
     ['copy:test', 'bower:test'],
