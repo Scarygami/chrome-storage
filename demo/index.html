@@ -9,28 +9,50 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <title>seed-element Demo</title>
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../seed-element.html">
-  </head>
-  <body>
+<head>
 
-    <p>An example of <code>&lt;seed-element&gt;</code>:</p>
+  <title>chrome-storage</title>
 
-    <button>Say Something</button>
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
-    <seed-element author='{"name": "Lord Meowser", "image": "http://placekitten.com/g/200/300"}' fancy>
-      <h2>Hello seed-element</h2>
-    </seed-element>
+  <link rel="import" href="../../paper-styles/paper-styles.html">
+  <link rel="import" href="../../paper-styles/demo-pages.html">
+  <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
 
-    <script>
-      document.querySelector('button').addEventListener('click', function() {
-        alert(document.querySelector('seed-element').sayHello('Hallo!'));
-      });
-    </script>
+  <link rel="import" href="../chrome-storage.html">
+  <style is="custom-style">
+    input {
+      padding: 0.4em;
+      font-size: 16px;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
 
-  </body>
+  <div class="vertical-section vertical-section-container centered">
+    <template is="dom-bind">
+      <chrome-storage
+        area="local"
+        name="chrome-storage-x-test1"
+        value="{{value}}"
+        on-load-empty="initializeDefaultValue"
+        ></chrome-localstorage>
+      <p>Form element below will be kept in sync with <code>Chrome local storage</code>.</p>
+      <p>Demo source also shows how to initialize storage to default value</p>
+      <p>Name: <input value="{{value.name::change}}" placeholder="Enter words"></p>
+      <paper-checkbox checked="{{value.hasEars::change}}">Has ears</paper-checkbox>
+    </template>
+  </div>
+
+  <script>
+    document.querySelector('template').initializeDefaultValue = function() {
+      console.log('initializeTemplate');
+      this.value = {
+        name: 'Mickey',
+        hasEars: true
+      };
+    };
+  </script>
+</body>
 </html>

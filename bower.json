@@ -28,6 +28,8 @@
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.5",
-    "web-component-tester": "Polymer/web-component-tester#^3.3.6"
+    "web-component-tester": "Polymer/web-component-tester#^3.3.6",
+    "paper-styles": "PolymerElements/paper-styles#^1.0.2",
+    "paper-checkbox": "PolymerElements/paper-checkbox#^1.0.1"
   }
 }
