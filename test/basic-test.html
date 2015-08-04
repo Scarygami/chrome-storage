@@ -60,9 +60,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             assert.isNotNull(storage.value);
             assert.equal(storage.value.foo, 'bar');
             done();
-          }, 200);
+          }, 100);
         });
 
+        test('save', function (done) {
+          window.setTimeout(function () {
+            var newValue = {foo: 'zot'};
+            storage.value = newValue;
+            storage.flushDebouncer('save');
+            window.setTimeout(function () {
+              chrome.storage.local.get('chrome-storage-test', function (items) {
+                assert.equal(items['chrome-storage-test'].foo, newValue.foo);
+                done();
+              });
+            }, 100);
+          }, 100);
+        });
       });
     </script>
 
