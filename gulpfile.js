@@ -94,8 +94,7 @@ gulp.task('bower:demo', bowerTask.bind(null, 'demo-app'));
 var createAppTask = function (type, destDir) {
   return gulp.src([
     './chrome-app/**'
-  ], {nodir: true})
-    .pipe($.replace('_element_', element))
+  ]).pipe($.replace('_element_', element))
     .pipe($.replace('_type_', type))
     .pipe(gulp.dest(destDir));
 };
