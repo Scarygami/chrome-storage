@@ -19,9 +19,8 @@
     "package.json",
     "gulpfile.js",
     "/test/",
-    "/test-app/",
     "/demo/",
-    "/demo-app/"
+    "/chrome-app/"
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.0.6"
