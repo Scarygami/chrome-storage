@@ -19,14 +19,14 @@ npm install -g gulp bower && npm install && bower install
 
 ```sh
 gulp build:test
-```sh
+```
 
 This will build a Chrome App based on the tests in the `test` folder into `test-app` which can be loaded
 as "Unpacked Extension" in Chrome to run the tests with the Chrome Apps APIs available.
 
 ```sh
 gulp live:test
-```sh
+```
 
 This will build the same Chrome App but with live reloading enabled.
 
@@ -34,13 +34,13 @@ This will build the same Chrome App but with live reloading enabled.
 
 ```sh
 gulp build:demo
-```sh
+```
 
 This will build a Chrome App based on the `demo` folder into `demo-app` which can be loaded
 as "Unpacked Extension" in Chrome to show your element in acation
 
 ```sh
 gulp live:demo
-```sh
+```
 
 This will build the same Chrome App but with live reloading enabled.
