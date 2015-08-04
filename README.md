@@ -3,7 +3,7 @@
 Get/store values via the Chrome Storage API.
 
 This repository is also meant as an example how to develop Polymer elements for Chrome Apps,
-with testing work flows. (Link to blog post pending)
+with testing work flows. ([related article](http://codingwithgerwin.blogspot.co.at/2015/08/custom-elements-for-chrome-apps-apis.html))
 
 ### Dependencies
 
