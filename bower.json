@@ -1,0 +1,36 @@
+{
+  "name": "chrome-storage",
+  "version": "0.0.1",
+  "authors": [
+    "Gerwin Sturm <scarygami@gmail.com>"
+  ],
+  "description": "Get/store values via the Chrome Storage API",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "chrome",
+    "storage"
+  ],
+  "main": "chrome-storage.html",
+  "license": "Apache 2.0",
+  "homepage": "https://github.com/Scarygami/chrome-storage/",
+  "ignore": [
+    "/.*",
+    "package.json",
+    "gulpfile.js",
+    "/test/",
+    "/demo/",
+    "/chrome-app/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.6"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.5",
+    "web-component-tester": "Polymer/web-component-tester#^3.3.6",
+    "paper-styles": "PolymerElements/paper-styles#^1.0.2",
+    "paper-checkbox": "PolymerElements/paper-checkbox#^1.0.1",
+    "chrome-app-livereload": "bestander/chrome-app-livereload#~0.0.5",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0"
+  }
+}
