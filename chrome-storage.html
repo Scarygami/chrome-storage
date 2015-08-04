@@ -20,7 +20,7 @@ Element access to Chrome Storage API (chrome.storage).
 
 Keeps `value` property in sync with storage.
 
-###Usage:
+### Usage:
 
 `ls-sample` will automatically save changes to its value.
 
@@ -54,7 +54,7 @@ Keeps `value` property in sync with storage.
       });
     </script>
 
-###Tech notes:
+### Tech notes:
 
 * * `value.*` is observed, and saved on modifications. You must use
 property notification methods to modify value for changes to be observed.
@@ -63,12 +63,11 @@ property notification methods to modify value for changes to be observed.
 
 * * To delete a key, set value to null
 
-* Element listens to StorageAPI `storage` event, and will reload upon receiving it.
+* * The Chrome Storage APIs work asynchronously so changing values won't be
+    reflected in storage right away. The `save` event is fired after a successful save/remove.
 
-* **Warning**: do not bind value to sub-properties until Polymer
-[bug 1550](https://github.com/Polymer/polymer/issues/1550)
-is resolved. Local storage will be blown away.
-`<chrome-storage value="{{foo.bar}}"` will cause **data loss**.
+* Element listens to `storage.onChanged` events, and will reload upon receiving it.
+
 -->
 <dom-module id="chrome-storage">
   <script>
@@ -220,6 +219,8 @@ is resolved. Local storage will be blown away.
       _handleSave: function () {
         if (chrome.runtime.lastError) {
           this.errorMessage = chrome.runtime.lastError.string;
+        } else {
+          this.fire('save');
         }
       },
 
@@ -248,20 +249,22 @@ is resolved. Local storage will be blown away.
       }
 
       /**
-       * Fired when value loads from localStorage.
+       * Fired when value loads from storage.
        *
-       * @event iron-localstorage-load
-       * @param {{externalChange:boolean}} detail -
-       *     externalChange: true if change occured in different window.
+       * @event load
        */
 
       /**
        * Fired when loaded value does not exist.
        * Event handler can be used to initialize default value.
        *
-       * @event iron-localstorage-load-empty
-       * @param {{externalChange:boolean}} detail -
-       *     externalChange: true if change occured in different window.
+       * @event load-empty
+       */
+
+      /**
+       * Fired when value has been successfully stored.
+       *
+       * @event save
        */
     });
   </script>
