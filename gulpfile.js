@@ -9,40 +9,24 @@ var path = require('path');
 var tinylr = require('tiny-lr');
 
 // Get folder name (that should match the name of the element)
-var elemDir = __dirname.split(path.sep).pop();
+var element = __dirname.split(path.sep).pop();
 
 // Copy and prepare custom element
 var copyTask = function (type, destDir, live) {
 
-  // Scripts necessary for WCT that need to be loaded explicitely for Chrome Apps
-  var wctScripts = [
-    '<script src="../../stacky/lib/parsing.js"></script>',
-    '<script src="../../stacky/lib/formatting.js"></script>',
-    '<script src="../../stacky/lib/normalization.js"></script>',
-    '<script src="../../async/lib/async.js"></script>',
-    '<script src="../../lodash/lodash.js"></script>',
-    '<script src="../../mocha/mocha.js"></script>',
-    '<script src="../../chai/chai.js"></script>',
-    '<script src="../../sinonjs/sinon.js"></script>',
-    '<script src="../../sinon-chai/lib/sinon-chai.js"></script>',
-    '<script src="../../accessibility-developer-tools/dist/js/axs_testing.js"></script>',
-    '<script src="prepare_wct.js"></script>'
-  ];
-
+  // All files necessary for the element + test/demo files
+  // This will have to be extended, e.g. if your element uses images
   var copy = gulp.src([
-    './**',
-    '!./bower_components/**',
-    '!./chrome-app/**',
-    '!./demo-app/**',
-    '!./node_modules/**',
-    '!./test-app/**',
-    '!./bower.json',
+    './*.html',
+    './*.js',
+    './*.css',
+    './' + type + '/**',
     '!./gulpfile.js',
     '!./index.html',
-    '!./package.json',
-    '!./README.md',
-    '!./LICENSE'
-  ], {nodir: true}).pipe($.if('*.html', $.crisper()));
+  ],{base: './'});
+
+  // Run all html files through crisper for CSP
+  copy = copy.pipe($.if('*.html', $.crisper()));
 
   if (live) {
     // Insert live-reload script into main demo/test files
@@ -58,20 +42,33 @@ var copyTask = function (type, destDir, live) {
   }
 
   if (type === 'test') {
-    // Insert WCT Scripts in test files
+    // Scripts necessary for WCT that need to be loaded explicitely for Chrome Apps
+    var wctScripts = [
+      '<script src="../../stacky/lib/parsing.js"></script>',
+      '<script src="../../stacky/lib/formatting.js"></script>',
+      '<script src="../../stacky/lib/normalization.js"></script>',
+      '<script src="../../async/lib/async.js"></script>',
+      '<script src="../../lodash/lodash.js"></script>',
+      '<script src="../../mocha/mocha.js"></script>',
+      '<script src="../../chai/chai.js"></script>',
+      '<script src="../../sinonjs/sinon.js"></script>',
+      '<script src="../../sinon-chai/lib/sinon-chai.js"></script>',
+      '<script src="../../accessibility-developer-tools/dist/js/axs_testing.js"></script>',
+      '<script src="prepare_wct.js"></script>'
+    ].join('\n');
+
+    // Insert WCT Scripts in test files before WCT is loaded
     copy = copy.pipe(
-      $.if(
-        '**/test/*.html',
-        $.insertLines({
-          before: /<script\ src="..\/..\/web-component-tester\/browser.js/,
-          lineBefore: wctScripts.join('\n')
-        })
-      )
+      $.if('*.html', $.insertLines({
+        before: /<script\ src="..\/..\/web-component-tester\/browser.js/,
+        lineBefore: wctScripts
+      }))
     );
   }
 
+  // Put everything into ./{{dest}}/components/{your-element}/
   copy = copy.pipe(
-    gulp.dest(path.join(destDir, 'components', elemDir))
+    gulp.dest(path.join(destDir, 'components', element))
   );
 
   return copy.pipe($.size({title: 'copy:app'}));
@@ -98,7 +95,7 @@ var createAppTask = function (type, destDir) {
   return gulp.src([
     './chrome-app/**'
   ], {nodir: true})
-    .pipe($.replace('_element_', elemDir))
+    .pipe($.replace('_element_', element))
     .pipe($.replace('_type_', type))
     .pipe(gulp.dest(destDir));
 };
@@ -112,7 +109,7 @@ var watchTask = function (type, destDir) {
   var lr = tinylr();
   lr.listen(35729);
 
-  gulp.watch(['./*', './' + type + '/*'], ['copy-live:' + type]);
+  gulp.watch(['./*', './' + type + '/**'], ['copy-live:' + type]);
   gulp.watch(['./chrome-app/**'], ['app:' + type]);
   gulp.watch(['bower_components/**'], ['bower:' + type]);
 
